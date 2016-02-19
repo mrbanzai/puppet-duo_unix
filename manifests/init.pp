@@ -51,6 +51,22 @@ class duo_unix (
       include duo_unix::yum
       include duo_unix::generic
     }
+    'Suse': {
+      $duo_package = 'duo_unix'
+      $ssh_service = 'openssh'
+      $gpg_file    = '/etc/pki/rpm-gpg/RPM-GPG-KEY-DUO'
+
+      $pam_file = 'common-auth'
+
+      $pam_module  = $::architecture ? {
+        i386   => '/lib/security/pam_duo.so',
+        i686   => '/lib/security/pam_duo.so',
+        x86_64 => '/lib64/security/pam_duo.so'
+      }
+
+      include duo_unix::yum
+      include duo_unix::generic
+    }
     'Debian': {
       $duo_package = 'duo-unix'
       $ssh_service = 'ssh'
